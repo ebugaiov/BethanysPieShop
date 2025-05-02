@@ -13,6 +13,15 @@ internal class Utilities
 
     internal static void InitializeStock()
     {
+        BoxedProduct bp = new BoxedProduct(
+            6, "Eggs", "Lorem ipsum",
+            new Price() { ItemPrice = 10, Currency = Currency.Euro },
+            200, 100
+        );
+
+        bp.IncreaseStock(100);
+        bp.UseProduct(10);
+
         ProductRepository productRepository = new();
         inventory = productRepository.LoadProductsFromFile();
         
