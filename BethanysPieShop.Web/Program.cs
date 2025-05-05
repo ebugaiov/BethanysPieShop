@@ -1,11 +1,20 @@
 using BethanysPieShop.Web.Models;
+using Microsoft.EntityFrameworkCore;
+
+var dbUser = Environment.GetEnvironmentVariable("DB_USER");
+var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
+var connectionString = $"Server=localhost,1433;Database=BethanysPieShopDB;User Id={dbUser};Password={dbPassword};TrustServerCertificate=True;MultipleActiveResultSets=true;";
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddScoped<ICategoryRepository, MockCategoryRepository>();
-builder.Services.AddScoped<IPieRepository, MockPieRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IPieRepository, PieRepository>();
 
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<BethanysPieShopDbContext>(options => options.UseSqlServer(connectionString));
+
+Console.WriteLine(builder.Configuration["ConnectionStrings:BethanysPieShopDbContextConnection"]);
 
 var app = builder.Build();
 
@@ -17,5 +26,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapDefaultControllerRoute();
+
+DbInitializer.Seed(app);
 
 app.Run();
