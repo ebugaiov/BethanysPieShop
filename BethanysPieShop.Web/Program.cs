@@ -14,8 +14,6 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<BethanysPieShopDbContext>(options => options.UseSqlServer(connectionString));
 
-Console.WriteLine(builder.Configuration["ConnectionStrings:BethanysPieShopDbContextConnection"]);
-
 var app = builder.Build();
 
 app.UseStaticFiles();
@@ -28,5 +26,4 @@ if (app.Environment.IsDevelopment())
 app.MapDefaultControllerRoute();
 
 DbInitializer.Seed(app);
-
 app.Run();
