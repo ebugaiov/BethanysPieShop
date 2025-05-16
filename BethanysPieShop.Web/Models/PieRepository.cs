@@ -33,6 +33,6 @@ public class PieRepository : IPieRepository
 
     public IEnumerable<Pie> SearchPies(string searchQuery)
     {
-        throw new NotImplementedException();
+        return _bethanysPieShopDbContext.Pies.Where(p => p.Name.Contains(searchQuery));
     }
 }

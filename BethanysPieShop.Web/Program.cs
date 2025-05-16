@@ -1,5 +1,6 @@
 using BethanysPieShop.Web.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 var dbUser = Environment.GetEnvironmentVariable("DB_USER");
 var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
@@ -15,7 +16,8 @@ builder.Services.AddScoped<IShoppingCart, ShoppingCart>(sp => ShoppingCart.GetSh
 builder.Services.AddSession();
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddJsonOptions(opts => opts.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.AddRazorPages();
 
 builder.Services.AddDbContext<BethanysPieShopDbContext>(options => options.UseSqlServer(connectionString));
